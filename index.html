@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#080b12">
+<title>JoNA PROTOTYPE — XAUUSD Trading Dashboard</title>
+<style>
+:root{--bg:#080b12;--panel:#101620;--panel2:#0b111a;--border:#202b3a;--text:#f5f7fa;--muted:#8c98a9;--green:#20d58c;--red:#ff5570;--yellow:#f2c14e;--blue:#58a6ff}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at 15% 0,#182338 0,#080b12 45%);color:var(--text);font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif}.top{height:70px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:0 20px;background:#080b12e8;backdrop-filter:blur(12px);position:sticky;top:0;z-index:5}.brand{display:flex;gap:11px;align-items:center}.logo{width:40px;height:40px;border-radius:12px;background:#f1f4f8;color:#080b12;display:grid;place-items:center;font-weight:900;font-size:20px}.brand h1{font-size:17px;margin:0}.brand small{font-size:10px;color:var(--muted)}.online{font-size:11px;color:#b8c3d0;display:flex;gap:7px;align-items:center}.dot{width:8px;height:8px;border-radius:50%;background:var(--green);box-shadow:0 0 12px #20d58c}.wrap{max-width:1450px;margin:auto;padding:18px}.tools{display:flex;gap:9px;flex-wrap:wrap;margin-bottom:15px}.select,.btn,.input{border:1px solid var(--border);background:var(--panel);color:var(--text);border-radius:10px;padding:11px 13px}.btn{cursor:pointer}.btn.primary{background:#f2f4f7;color:#080b12;font-weight:700}.layout{display:grid;grid-template-columns:minmax(0,1fr) 360px;gap:15px}.card{background:linear-gradient(180deg,#101620fa,#0c1119fa);border:1px solid var(--border);border-radius:15px;overflow:hidden}.head{height:48px;padding:0 15px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}.head h2{font-size:13px;margin:0}.head span{font-size:10px;color:var(--muted)}.chart{height:570px}.side{display:flex;flex-direction:column;gap:15px}.signal{padding:18px}.label{font-size:10px;color:var(--muted);letter-spacing:1px;text-transform:uppercase}.mainSignal{display:flex;justify-content:space-between;align-items:center;margin:8px 0 15px}.signalWord{font-size:40px;font-weight:900}.BUY{color:var(--green)}.SELL{color:var(--red)}.WAIT{color:var(--yellow)}.score{text-align:right;color:var(--muted);font-size:10px}.score strong{display:block;color:var(--text);font-size:19px}.meter{height:7px;background:#202936;border-radius:20px;overflow:hidden}.meter i{display:block;height:100%;width:0;background:var(--green);transition:.4s}.facts{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:15px}.fact{background:#0a0f16;border:1px solid #1a2430;border-radius:9px;padding:9px}.fact span{display:block;color:var(--muted);font-size:9px;margin-bottom:4px}.fact b{font-size:11px}.reason{margin-top:10px;background:#0a0f16;border:1px solid #1a2430;border-radius:9px;padding:11px;font-size:11px;line-height:1.55;color:#cbd4df}.chat{height:300px;display:flex;flex-direction:column}.messages{padding:12px;overflow:auto;flex:1}.msg{max-width:92%;padding:9px 11px;border-radius:11px;font-size:11px;line-height:1.5;margin-bottom:8px}.bot{background:#192231}.user{background:#f0f3f6;color:#080b12;margin-left:auto}.chatForm{display:flex;gap:7px;padding:10px;border-top:1px solid var(--border)}.chatForm input{flex:1;min-width:0;background:#0a0f16;color:white;border:1px solid var(--border);border-radius:9px;padding:9px;outline:0}.activity{padding:14px}.row{display:flex;justify-content:space-between;border-bottom:1px solid #1b2430;padding:8px 0;font-size:10px}.row span{color:var(--muted)}.footer{text-align:center;color:#697587;font-size:9px;padding:18px 4px}.tag{background:#182231;color:#b8c4d2;border-radius:20px;padding:4px 7px;font-size:9px}
+@media(max-width:950px){.layout{grid-template-columns:1fr}.chart{height:480px}.side{display:grid;grid-template-columns:1fr 1fr}.chat{height:280px}}@media(max-width:650px){.top{padding:0 12px}.wrap{padding:11px}.brand small{display:none}.tools{display:grid;grid-template-columns:1fr 1fr}.tools .btn{width:100%}.chart{height:390px}.side{display:flex}.signalWord{font-size:34px}}
+</style>
+</head>
+<body>
+<header class="top">
+<div class="brand"><div class="logo">J</div><div><h1>JoNA PROTOTYPE</h1><small>SMC • ICT • XAUUSD ANALYSIS</small></div></div>
+<div class="online"><i class="dot"></i><span id="status">ANALYZER ONLINE</span></div>
+</header>
+
+<main class="wrap">
+<div class="tools">
+<select class="select" id="symbol"><option>XAUUSD</option><option>EURUSD</option><option>GBPUSD</option><option>BTCUSD</option></select>
+<select class="select" id="tf"><option value="1">1m</option><option value="5" selected>5m</option><option value="15">15m</option><option value="60">1H</option><option value="240">4H</option></select>
+<button class="btn primary" id="analyze">Analyze Market</button>
+<button class="btn" id="reset">Reset</button>
+</div>
+
+<div class="layout">
+<section class="card">
+<div class="head"><h2 id="chartTitle">XAUUSD • 5m</h2><span class="tag">TradingView</span></div>
+<div class="chart" id="tv"></div>
+</section>
+
+<aside class="side">
+<div class="card signal">
+<div class="label">JoNA Market Decision</div>
+<div class="mainSignal"><div id="signal" class="signalWord WAIT">WAIT</div><div class="score"><strong id="score">0/10</strong>demo score</div></div>
+<div class="meter"><i id="meter"></i></div>
+<div class="facts">
+<div class="fact"><span>Structure</span><b id="structure">Waiting</b></div>
+<div class="fact"><span>Liquidity</span><b id="liquidity">Waiting</b></div>
+<div class="fact"><span>FVG</span><b id="fvg">Waiting</b></div>
+<div class="fact"><span>Premium / Discount</span><b id="zone">Waiting</b></div>
+</div>
+<div class="reason" id="reason">Click Analyze Market to run the JoNA prototype engine.</div>
+</div>
+
+<div class="card chat">
+<div class="head"><h2>JoNA Chat</h2><span>Assistant</span></div>
+<div class="messages" id="messages"><div class="msg bot">Hi 👋 Ask me: “Why BUY?”, “Where is liquidity?” or “What invalidates the setup?”</div></div>
+<form class="chatForm" id="chatForm"><input id="chatInput" placeholder="Ask JoNA..." autocomplete="off"><button class="btn primary">Send</button></form>
+</div>
+
+<div class="card activity">
+<div class="head" style="padding:0 0 9px;border:0"><h2>Signal Activity</h2><span>Local demo</span></div>
+<div id="log"><div class="row"><span>No analysis yet</span><b>—</b></div></div>
+</div>
+</aside>
+</div>
+
+<div class="footer">JoNA PROTOTYPE is a demonstration interface. The demo analyzer does not guarantee profitable signals. Connect it to the JoNA backend and TradingView webhooks for real event-driven analysis.</div>
+</main>
+
+<script>
+const state={signal:"WAIT",score:0,structure:"Waiting",liquidity:"Waiting",fvg:"Waiting",zone:"Waiting",reason:"Click Analyze Market to run the JoNA prototype engine."};
+
+function loadChart(){
+const symbol=document.getElementById("symbol").value,tf=document.getElementById("tf").value;
+document.getElementById("chartTitle").textContent=`${symbol} • ${tf}m`;
+const box=document.getElementById("tv");box.innerHTML="";
+const s=document.createElement("script");s.src="https://s3.tradingview.com/external-embedding/embed-widget-advanced-chart.js";s.async=true;
+s.innerHTML=JSON.stringify({autosize:true,symbol:"OANDA:"+symbol,interval:tf,timezone:"Etc/UTC",theme:"dark",style:"1",locale:"en",allow_symbol_change:false,withdateranges:true,hide_top_toolbar:false,hide_side_toolbar:false,save_image:false,calendar:false,studies:["Volume@tv-basicstudies"],support_host:"https://www.tradingview.com"});
+box.appendChild(s);
+}
+function render(){
+const sig=document.getElementById("signal");sig.textContent=state.signal;sig.className="signalWord "+state.signal;
+document.getElementById("score").textContent=state.score+"/10";
+document.getElementById("meter").style.width=(state.score*10)+"%";
+for(const k of ["structure","liquidity","fvg","zone"])document.getElementById(k).textContent=state[k];
+document.getElementById("reason").textContent=state.reason;
+}
+function analyze(){
+const symbol=document.getElementById("symbol").value,tf=document.getElementById("tf").value;
+const scenarios=[
+{signal:"BUY",score:8,structure:"Bullish BOS",liquidity:"Sell-side sweep",fvg:"Bullish FVG",zone:"Discount",reason:"Bullish structure, sell-side liquidity sweep and discount alignment detected in the demo engine. Confirmation is still required."},
+{signal:"SELL",score:7,structure:"Bearish CHoCH",liquidity:"Buy-side sweep",fvg:"Bearish FVG",zone:"Premium",reason:"Bearish structure, buy-side liquidity sweep and premium alignment detected in the demo engine. Confirmation is still required."},
+{signal:"WAIT",score:4,structure:"Range / unclear",liquidity:"No clear sweep",fvg:"None",zone:"Equilibrium",reason:"Conditions are mixed. JoNA is waiting for clearer structure and liquidity confirmation."}];
+Object.assign(state,scenarios[Math.floor(Math.random()*scenarios.length)]);render();
+const row=document.createElement("div");row.className="row";row.innerHTML=`<span>${new Date().toLocaleTimeString()} • ${symbol} ${tf}m</span><b>${state.signal}</b>`;document.getElementById("log").prepend(row);
+}
+document.getElementById("analyze").onclick=analyze;
+document.getElementById("reset").onclick=()=>{Object.assign(state,{signal:"WAIT",score:0,structure:"Waiting",liquidity:"Waiting",fvg:"Waiting",zone:"Waiting",reason:"Click Analyze Market to run the JoNA prototype engine."});render()};
+document.getElementById("symbol").onchange=loadChart;document.getElementById("tf").onchange=loadChart;
+
+document.getElementById("chatForm").onsubmit=e=>{
+e.preventDefault();const input=document.getElementById("chatInput"),q=input.value.trim();if(!q)return;
+const box=document.getElementById("messages"),u=document.createElement("div");u.className="msg user";u.textContent=q;box.appendChild(u);
+const b=document.createElement("div");b.className="msg bot";const x=q.toLowerCase();
+if(x.includes("why"))b.textContent=`JoNA shows ${state.signal}. Current factors: ${state.structure}, ${state.liquidity}, ${state.fvg}, and ${state.zone}. This demo does not confirm a live trade.`;
+else if(x.includes("liquidity"))b.textContent=`Liquidity read: ${state.liquidity}. JoNA is designed to look for buy-side or sell-side sweeps around important highs/lows.`;
+else if(x.includes("invalid"))b.textContent="A production version should calculate invalidation from the setup's structure and liquidity level. This frontend demo does not calculate a broker-specific stop.";
+else if(x.includes("signal"))b.textContent=`Current state: ${state.signal}, score ${state.score}/10. Click Analyze Market to refresh.`;
+else b.textContent="Try “Why BUY?”, “Where is liquidity?”, “What is the signal?” or “What invalidates the setup?”";
+box.appendChild(b);box.scrollTop=box.scrollHeight;input.value="";
+};
+loadChart();render();
+</script>
+</body>
+</html>
