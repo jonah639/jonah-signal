@@ -1,0 +1,784 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>JoNA PROTOTYPE</title>
+
+<style>
+*{box-sizing:border-box}
+body{
+ margin:0;
+ background:#070b12;
+ color:#fff;
+ font-family:Arial,Helvetica,sans-serif
+}
+header{
+ height:70px;
+ display:flex;
+ align-items:center;
+ justify-content:space-between;
+ padding:0 18px;
+ border-bottom:1px solid #202938;
+ background:#0b1018;
+ position:sticky;
+ top:0;
+ z-index:10
+}
+.logo{
+ width:42px;
+ height:42px;
+ border-radius:12px;
+ background:#fff;
+ color:#000;
+ display:flex;
+ align-items:center;
+ justify-content:center;
+ font-weight:bold;
+ font-size:21px
+}
+.brand{
+ display:flex;
+ align-items:center;
+ gap:11px
+}
+.brand h1{
+ margin:0;
+ font-size:17px
+}
+.brand small{
+ color:#7f8b9d;
+ font-size:10px
+}
+.status{
+ color:#22d58c;
+ font-size:11px
+}
+.container{
+ max-width:1400px;
+ margin:auto;
+ padding:15px
+}
+.controls{
+ display:flex;
+ flex-wrap:wrap;
+ gap:8px;
+ margin-bottom:15px
+}
+select,button,input{
+ background:#111925;
+ border:1px solid #253044;
+ color:#fff;
+ padding:11px;
+ border-radius:9px
+}
+button{
+ cursor:pointer
+}
+.primary{
+ background:#fff;
+ color:#000;
+ font-weight:bold
+}
+.layout{
+ display:grid;
+ grid-template-columns:minmax(0,1fr) 350px;
+ gap:15px
+}
+.card{
+ background:#101722;
+ border:1px solid #202b3b;
+ border-radius:15px;
+ overflow:hidden
+}
+.card-title{
+ padding:14px;
+ border-bottom:1px solid #202b3b;
+ display:flex;
+ justify-content:space-between;
+ font-size:13px
+}
+.chart{
+ height:570px
+}
+.signal{
+ padding:18px
+}
+.label{
+ color:#7f8b9d;
+ font-size:10px;
+ text-transform:uppercase
+}
+.signal-main{
+ display:flex;
+ justify-content:space-between;
+ align-items:center;
+ margin:8px 0 16px
+}
+.signal-word{
+ font-size:40px;
+ font-weight:900
+}
+.BUY{color:#20d58c}
+.SELL{color:#ff5570}
+.WAIT{color:#f2c14e}
+.score{
+ color:#8995a7;
+ text-align:right;
+ font-size:10px
+}
+.score strong{
+ display:block;
+ color:white;
+ font-size:20px
+}
+.bar{
+ height:7px;
+ background:#202936;
+ border-radius:20px;
+ overflow:hidden
+}
+.bar i{
+ display:block;
+ height:100%;
+ background:#20d58c;
+ width:0%
+}
+.facts{
+ display:grid;
+ grid-template-columns:1fr 1fr;
+ gap:8px;
+ margin-top:15px
+}
+.fact{
+ background:#0a0f17;
+ border:1px solid #1c2634;
+ padding:10px;
+ border-radius:9px
+}
+.fact span{
+ display:block;
+ color:#7f8b9d;
+ font-size:9px;
+ margin-bottom:5px
+}
+.fact b{
+ font-size:11px
+}
+.reason{
+ margin-top:10px;
+ background:#0a0f17;
+ border:1px solid #1c2634;
+ padding:11px;
+ border-radius:9px;
+ font-size:11px;
+ line-height:1.5;
+ color:#c9d2df
+}
+.chat{
+ height:310px;
+ display:flex;
+ flex-direction:column
+}
+.messages{
+ flex:1;
+ overflow:auto;
+ padding:12px
+}
+.msg{
+ padding:9px 11px;
+ border-radius:10px;
+ font-size:11px;
+ margin-bottom:8px;
+ line-height:1.5;
+ max-width:92%
+}
+.bot{background:#192231}
+.user{
+ background:#fff;
+ color:#000;
+ margin-left:auto
+}
+.chat-form{
+ display:flex;
+ gap:7px;
+ padding:10px;
+ border-top:1px solid #202b3b
+}
+.chat-form input{
+ flex:1;
+ min-width:0
+}
+.activity{
+ padding:14px
+}
+.trade-plan{
+ margin-top:15px;
+ padding:13px;
+ background:#080d15;
+ border:1px solid #202b3b;
+ border-radius:10px
+}
+.trade-plan h3{
+ margin:0 0 10px;
+ font-size:12px
+}
+.trade-row{
+ display:flex;
+ justify-content:space-between;
+ padding:6px 0;
+ font-size:11px
+}
+.trade-row span{
+ color:#8591a2
+}
+.green{color:#20d58c}
+.red{color:#ff5570}
+.yellow{color:#f2c14e}
+.log{
+ font-size:10px
+}
+.log div{
+ display:flex;
+ justify-content:space-between;
+ padding:7px 0;
+ border-bottom:1px solid #1b2430
+}
+footer{
+ text-align:center;
+ color:#687587;
+ font-size:9px;
+ padding:20px
+}
+@media(max-width:900px){
+ .layout{grid-template-columns:1fr}
+ .chart{height:470px}
+}
+@media(max-width:600px){
+ header{padding:0 10px}
+ .container{padding:10px}
+ .controls{
+  display:grid;
+  grid-template-columns:1fr 1fr
+ }
+ .controls button{
+  width:100%
+ }
+ .chart{height:390px}
+ .signal-word{font-size:34px}
+}
+</style>
+</head>
+
+<body>
+
+<header>
+ <div class="brand">
+  <div class="logo">J</div>
+  <div>
+   <h1>JoNA PROTOTYPE</h1>
+   <small>ICT • SMC • XAUUSD AUTO ANALYSIS</small>
+  </div>
+ </div>
+
+ <div class="status">● SYSTEM ONLINE</div>
+</header>
+
+<div class="container">
+
+<div class="controls">
+
+<select id="symbol">
+ <option>XAUUSD</option>
+ <option>EURUSD</option>
+ <option>GBPUSD</option>
+ <option>BTCUSD</option>
+</select>
+
+<select id="timeframe">
+ <option value="1">1 Minute</option>
+ <option value="5" selected>5 Minutes</option>
+ <option value="15">15 Minutes</option>
+ <option value="60">1 Hour</option>
+ <option value="240">4 Hours</option>
+</select>
+
+<button class="primary" onclick="analyze()">ANALYZE MARKET</button>
+
+<button onclick="resetBot()">RESET</button>
+
+</div>
+
+<div class="layout">
+
+<div class="card">
+
+<div class="card-title">
+ <b id="chartName">XAUUSD • 5m</b>
+ <span>TRADINGVIEW</span>
+</div>
+
+<div class="chart" id="tradingview"></div>
+
+</div>
+
+<div>
+
+<div class="card signal">
+
+<div class="label">JoNA Signal</div>
+
+<div class="signal-main">
+
+<div id="signal" class="signal-word WAIT">
+ WAIT
+</div>
+
+<div class="score">
+ <strong id="score">0/10</strong>
+ AI SCORE
+</div>
+
+</div>
+
+<div class="bar">
+ <i id="scoreBar"></i>
+</div>
+
+<div class="facts">
+
+<div class="fact">
+ <span>MARKET STRUCTURE</span>
+ <b id="structure">Waiting</b>
+</div>
+
+<div class="fact">
+ <span>LIQUIDITY</span>
+ <b id="liquidity">Waiting</b>
+</div>
+
+<div class="fact">
+ <span>FVG</span>
+ <b id="fvg">Waiting</b>
+</div>
+
+<div class="fact">
+ <span>ZONE</span>
+ <b id="zone">Waiting</b>
+</div>
+
+</div>
+
+<div class="trade-plan">
+
+<h3>AUTOMATIC TRADE PLAN</h3>
+
+<div class="trade-row">
+ <span>Entry</span>
+ <b id="entry">—</b>
+</div>
+
+<div class="trade-row">
+ <span>Stop Loss</span>
+ <b id="sl" class="red">—</b>
+</div>
+
+<div class="trade-row">
+ <span>TP1</span>
+ <b id="tp1" class="green">—</b>
+</div>
+
+<div class="trade-row">
+ <span>TP2</span>
+ <b id="tp2" class="green">—</b>
+</div>
+
+<div class="trade-row">
+ <span>Risk</span>
+ <b id="risk">1%</b>
+</div>
+
+</div>
+
+<div class="reason" id="reason">
+ Click ANALYZE MARKET to scan the setup.
+</div>
+
+</div>
+
+<br>
+
+<div class="card chat">
+
+<div class="card-title">
+ <b>JoNA CHAT</b>
+ <span>JONA</span>
+</div>
+
+<div class="messages" id="messages">
+
+<div class="msg bot">
+ Hello 👋 I'm JoNA.<br><br>
+ Ask me:<br>
+ • Why BUY?<br>
+ • Where is liquidity?<br>
+ • What is my TP?<br>
+ • What is my SL?<br>
+ • Should I trade?
+</div>
+
+</div>
+
+<form class="chat-form" onsubmit="chat(event)">
+
+<input
+ id="chatInput"
+ placeholder="Ask JoNA..."
+ autocomplete="off">
+
+<button class="primary">
+SEND
+</button>
+
+</form>
+
+</div>
+
+<br>
+
+<div class="card activity">
+
+<div class="card-title">
+ <b>TRADE ACTIVITY</b>
+ <span>LIVE BRIDGE</span>
+</div>
+
+<div class="log" id="log">
+ <div>
+  <span>System started</span>
+  <b>ONLINE</b>
+ </div>
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<footer>
+JoNA PROTOTYPE • Automated SL/TP interface • Connect the backend and MT5 execution bridge before real trading.
+</footer>
+
+</div>
+
+<script>
+
+let trade={
+ signal:"WAIT",
+ score:0,
+ structure:"Waiting",
+ liquidity:"Waiting",
+ fvg:"Waiting",
+ zone:"Waiting",
+ entry:0,
+ sl:0,
+ tp1:0,
+ tp2:0,
+ reason:"Click ANALYZE MARKET to scan the setup."
+};
+
+function loadTradingView(){
+
+ const symbol=document.getElementById("symbol").value;
+ const tf=document.getElementById("timeframe").value;
+
+ document.getElementById("chartName").innerText=
+ symbol+" • "+tf+"m";
+
+ const box=document.getElementById("tradingview");
+
+ box.innerHTML="";
+
+ const script=document.createElement("script");
+
+ script.src=
+ "https://s3.tradingview.com/external-embedding/embed-widget-advanced-chart.js";
+
+ script.async=true;
+
+ script.innerHTML=JSON.stringify({
+
+  autosize:true,
+
+  symbol:"OANDA:"+symbol,
+
+  interval:tf,
+
+  timezone:"Etc/UTC",
+
+  theme:"dark",
+
+  style:"1",
+
+  locale:"en",
+
+  allow_symbol_change:false,
+
+  withdateranges:true,
+
+  hide_side_toolbar:false,
+
+  save_image:false,
+
+  calendar:false,
+
+  support_host:"https://www.tradingview.com"
+
+ });
+
+ box.appendChild(script);
+}
+
+function analyze(){
+
+ const symbol=
+ document.getElementById("symbol").value;
+
+ const scenarios=[
+
+ {
+  signal:"BUY",
+  score:8,
+  structure:"Bullish BOS",
+  liquidity:"Sell-side sweep",
+  fvg:"Bullish FVG",
+  zone:"Discount",
+  entry:2650.20,
+  sl:2648.70,
+  tp1:2652.45,
+  tp2:2654.70,
+  reason:
+  "Bullish structure + sell-side liquidity sweep + discount zone. JoNA has calculated a demo BUY plan."
+ },
+
+ {
+  signal:"SELL",
+  score:8,
+  structure:"Bearish CHoCH",
+  liquidity:"Buy-side sweep",
+  fvg:"Bearish FVG",
+  zone:"Premium",
+  entry:2650.20,
+  sl:2651.70,
+  tp1:2647.95,
+  tp2:2645.70,
+  reason:
+  "Bearish structure + buy-side liquidity sweep + premium zone. JoNA has calculated a demo SELL plan."
+ },
+
+ {
+  signal:"WAIT",
+  score:4,
+  structure:"Range",
+  liquidity:"No clear sweep",
+  fvg:"None",
+  zone:"Equilibrium",
+  entry:0,
+  sl:0,
+  tp1:0,
+  tp2:0,
+  reason:
+  "Conditions are mixed. JoNA is waiting for stronger liquidity and structure confirmation."
+ }
+
+ ];
+
+ trade=
+ scenarios[
+ Math.floor(Math.random()*scenarios.length)
+ ];
+
+ renderTrade();
+
+ document.getElementById("log").innerHTML+=
+ `<div>
+ <span>${new Date().toLocaleTimeString()} • ${symbol}</span>
+ <b>${trade.signal}</b>
+ </div>`;
+
+}
+
+function renderTrade(){
+
+ const signal=document.getElementById("signal");
+
+ signal.innerText=trade.signal;
+
+ signal.className=
+ "signal-word "+trade.signal;
+
+ document.getElementById("score").innerText=
+ trade.score+"/10";
+
+ document.getElementById("scoreBar").style.width=
+ (trade.score*10)+"%";
+
+ document.getElementById("structure").innerText=
+ trade.structure;
+
+ document.getElementById("liquidity").innerText=
+ trade.liquidity;
+
+ document.getElementById("fvg").innerText=
+ trade.fvg;
+
+ document.getElementById("zone").innerText=
+ trade.zone;
+
+ document.getElementById("entry").innerText=
+ trade.entry ? trade.entry.toFixed(2) : "—";
+
+ document.getElementById("sl").innerText=
+ trade.sl ? trade.sl.toFixed(2) : "—";
+
+ document.getElementById("tp1").innerText=
+ trade.tp1 ? trade.tp1.toFixed(2) : "—";
+
+ document.getElementById("tp2").innerText=
+ trade.tp2 ? trade.tp2.toFixed(2) : "—";
+
+ document.getElementById("reason").innerText=
+ trade.reason;
+}
+
+function resetBot(){
+
+ trade={
+  signal:"WAIT",
+  score:0,
+  structure:"Waiting",
+  liquidity:"Waiting",
+  fvg:"Waiting",
+  zone:"Waiting",
+  entry:0,
+  sl:0,
+  tp1:0,
+  tp2:0,
+  reason:"Click ANALYZE MARKET to scan the setup."
+ };
+
+ renderTrade();
+}
+
+function chat(event){
+
+ event.preventDefault();
+
+ const input=
+ document.getElementById("chatInput");
+
+ const question=
+ input.value.trim();
+
+ if(!question)return;
+
+ const messages=
+ document.getElementById("messages");
+
+ messages.innerHTML+=
+ `<div class="msg user">${question}</div>`;
+
+ let answer="";
+
+ const q=question.toLowerCase();
+
+ if(q.includes("why")){
+
+ answer=
+ "JoNA's current signal is "+
+ trade.signal+
+ ". Structure: "+
+ trade.structure+
+ ". Liquidity: "+
+ trade.liquidity+
+ ". FVG: "+
+ trade.fvg+
+ ". Zone: "+
+ trade.zone+
+ ".";
+
+ }
+
+ else if(q.includes("sl")||
+         q.includes("stop loss")){
+
+ answer=
+ "Current automatic SL is "+
+ (trade.sl ? trade.sl.toFixed(2):"not calculated yet")+
+ ".";
+
+ }
+
+ else if(q.includes("tp")||
+         q.includes("take profit")){
+
+ answer=
+ "Current targets are TP1 "+
+ (trade.tp1 ? trade.tp1.toFixed(2):"—")+
+ " and TP2 "+
+ (trade.tp2 ? trade.tp2.toFixed(2):"—")+
+ ".";
+
+ }
+
+ else if(q.includes("liquidity")){
+
+ answer=
+ "Current liquidity reading: "+
+ trade.liquidity+
+ ". JoNA looks for buy-side and sell-side sweeps around important highs and lows.";
+
+ }
+
+ else if(q.includes("signal")){
+
+ answer=
+ "Current signal: "+
+ trade.signal+
+ " with a score of "+
+ trade.score+
+ "/10.";
+
+ }
+
+ else{
+
+ answer=
+ "I can explain the current signal, liquidity, structure, SL and TP. Try asking: Why BUY?, Where is liquidity?, What is my SL?, or What is my TP?";
+
+ }
+
+ messages.innerHTML+=
+ `<div class="msg bot">${answer}</div>`;
+
+ messages.scrollTop=
+ messages.scrollHeight;
+
+ input.value="";
+}
+
+document.getElementById("symbol")
+.addEventListener("change",loadTradingView);
+
+document.getElementById("timeframe")
+.addEventListener("change",loadTradingView);
+
+loadTradingView();
+
+renderTrade();
+
+</script>
+
+</body>
+</html>
